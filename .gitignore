@@ -1,0 +1,13 @@
+# Ignore build outputs
+bin/
+obj/
+
+# Ignore packages
+*.nuget
+*.dll
+*.pdb
+
+# Ignore temporary files
+*.tmp
+*.log
+/Battleship/.vs/Battleship/FileContentIndex/13d849cb-1ff4-49f1-8dcc-18f95283daa0.vsidx

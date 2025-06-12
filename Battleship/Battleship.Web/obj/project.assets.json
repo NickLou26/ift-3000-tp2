@@ -1945,11 +1945,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\uLaval\\Ete 2025\\IFT-3000\\TP1\\Battleship\\Battleship.Web\\Battleship.Web.csproj",
+      "projectUniqueName": "F:\\uLaval\\Ete 2025\\IFT-3000\\ift-3000-tp1\\Battleship\\Battleship.Web\\Battleship.Web.csproj",
       "projectName": "Battleship.Web",
-      "projectPath": "F:\\uLaval\\Ete 2025\\IFT-3000\\TP1\\Battleship\\Battleship.Web\\Battleship.Web.csproj",
+      "projectPath": "F:\\uLaval\\Ete 2025\\IFT-3000\\ift-3000-tp1\\Battleship\\Battleship.Web\\Battleship.Web.csproj",
       "packagesPath": "C:\\Users\\Nicko\\.nuget\\packages\\",
-      "outputPath": "F:\\uLaval\\Ete 2025\\IFT-3000\\TP1\\Battleship\\Battleship.Web\\obj\\",
+      "outputPath": "F:\\uLaval\\Ete 2025\\IFT-3000\\ift-3000-tp1\\Battleship\\Battleship.Web\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1970,8 +1970,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "F:\\uLaval\\Ete 2025\\IFT-3000\\TP1\\Battleship\\Battleship.Core\\Battleship.Core.fsproj": {
-              "projectPath": "F:\\uLaval\\Ete 2025\\IFT-3000\\TP1\\Battleship\\Battleship.Core\\Battleship.Core.fsproj"
+            "F:\\uLaval\\Ete 2025\\IFT-3000\\ift-3000-tp1\\Battleship\\Battleship.Core\\Battleship.Core.fsproj": {
+              "projectPath": "F:\\uLaval\\Ete 2025\\IFT-3000\\ift-3000-tp1\\Battleship\\Battleship.Core\\Battleship.Core.fsproj"
             }
           }
         }

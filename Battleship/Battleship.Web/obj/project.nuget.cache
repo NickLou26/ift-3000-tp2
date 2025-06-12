@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Y4+XfrhpnQo=",
+  "dgSpecHash": "LyOqrpO30HU=",
   "success": true,
-  "projectFilePath": "F:\\uLaval\\Ete 2025\\IFT-3000\\TP1\\Battleship\\Battleship.Web\\Battleship.Web.csproj",
+  "projectFilePath": "F:\\uLaval\\Ete 2025\\IFT-3000\\ift-3000-tp1\\Battleship\\Battleship.Web\\Battleship.Web.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nicko\\.nuget\\packages\\fsharp.core\\9.0.300\\fsharp.core.9.0.300.nupkg.sha512",
     "C:\\Users\\Nicko\\.nuget\\packages\\microsoft.aspnetcore.authorization\\9.0.4\\microsoft.aspnetcore.authorization.9.0.4.nupkg.sha512",
