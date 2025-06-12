@@ -1,0 +1,4 @@
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Web\wwwroot\css\app.css
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Web\wwwroot\index.html
+wwwroot\css\app.css
+wwwroot\index.html

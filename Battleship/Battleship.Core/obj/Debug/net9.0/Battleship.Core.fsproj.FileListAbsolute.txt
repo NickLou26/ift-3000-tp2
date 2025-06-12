@@ -1,0 +1,13 @@
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\bin\Debug\net9.0\Battleship.Core.deps.json
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\bin\Debug\net9.0\Battleship.Core.dll
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\bin\Debug\net9.0\Battleship.Core.pdb
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\bin\Debug\net9.0\Battleship.Core.xml
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\obj\Debug\net9.0\Battleship.Core.fsproj.AssemblyReference.cache
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\obj\Debug\net9.0\Battleship.Core.AssemblyInfoInputs.cache
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\obj\Debug\net9.0\Battleship.Core.AssemblyInfo.fs
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\obj\Debug\net9.0\Battleship.Core.fsproj.CoreCompileInputs.cache
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\obj\Debug\net9.0\Battleship.Core.dll
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\obj\Debug\net9.0\refint\Battleship.Core.dll
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\obj\Debug\net9.0\Battleship.Core.xml
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\obj\Debug\net9.0\Battleship.Core.pdb
+F:\uLaval\Ete 2025\IFT-3000\TP1\Battleship\Battleship.Core\obj\Debug\net9.0\ref\Battleship.Core.dll
