@@ -54,18 +54,27 @@ module Ship =
         | Cruiser -> (generateCoordsList 4 center facing)
         | AircraftCarrier -> (generateCoordsList 5 center facing)
 
+    //Generate a list of coords around the passed coord
+    let surroundCoordWithPerimeter (coord: Coord) : Coord List =
+        let (x, y) = coord
+        [(x - 1, y);(x + 1, y);(x, y - 1);(x, y + 1);(x - 1, y - 1);(x - 1, y + 1);(x + 1, y - 1);(x + 1, y + 1)] //Adds every position around the coord
 
-    
-
+    //Create a ship
     let createShip (center: Coord) (facing: Direction) (name: Name) : Ship =
         { Coords = (calculateCoordsByShip center name facing); Center = center; Facing = facing; Name = name }
 
+    //Determine perimeter of the ship
     let getPerimeter (ship: Ship) (dims: Dims) : Coord list =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
         let shipCoords = ship.Coords
-        let rec generatePerimeterCoords shipCoords =
+        let (dimx, dimy) = dims
+        let rec generatePerimeterCoords shipCoords = //For every square of the ship, add the surrounding coords to the perimeter list
             match shipCoords with
             | [] -> []
-            | (x, y)::r -> (0,0)::(generatePerimeterCoords r)
-        in generatePerimeterCoords shipCoords
+            | (x, y)::r -> (surroundCoordWithPerimeter(x,y))@(generatePerimeterCoords r)
+        let perimeterCoords = 
+            generatePerimeterCoords shipCoords
+            |> List.filter (fun (x,y) -> x >= 0 && x < dimx && y >= 0 && y < dimy) //Remove coords that are out of bounds
+            |> List.filter (fun coord -> not (List.contains coord shipCoords)) //Remove the ship coords from the list
+            |> List.fold (fun acc coord -> if (List.contains coord acc) then acc else coord::acc) [] //Remove duplicates
+        perimeterCoords
+
