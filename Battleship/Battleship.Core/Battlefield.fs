@@ -130,18 +130,8 @@ module Battlefield =
             //Update the sectors, then go to the next coord recursively
             | coord::restCoord -> toggleSectorsOfShipCoords (setSector grid' coord newSector) restCoord (posBlock - 1)
         
-        //Determine size of the ship based on its name
-        let shipSize = 
-            match ship.Name with
-            | Spy -> 2
-            | PatrolBoat -> 2
-            | Destroyer -> 3
-            | Submarine -> 3
-            | Cruiser -> 4
-            | AircraftCarrier -> 5
-        
         //Call the recursive fun
-        toggleSectorsOfShipCoords grid ship.Coords shipSize
+        toggleSectorsOfShipCoords grid ship.Coords (List.length ship.Coords)
 
     let replaceShip (ship: Ship) (grid: Sector Grid) : Sector Grid =
         //New grid with removed ship

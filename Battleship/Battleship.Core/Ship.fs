@@ -32,21 +32,28 @@ module Ship =
     let generateCoordsList (size : int) (center: Coord) (facing: Direction): Coord List =
         //Get the x and y of the center
         let (center_x, center_y) = center
-        //Determine the coords of the front of the ship
-        let (x, y) =
+        //Get offset based on size of the size
+        let offset = 
+            if size % 2 = 0 then
+                (size / 2) - 1
+            else
+                size / 2
+        //Determine the coords in front of the ship
+        let (frontx, fronty) =
             match facing with
-            | North -> (center_x - (size / 2), center_y)
-            | South -> (center_x + (size / 2), center_y)
-            | East -> (center_x, center_y + (size / 2))
-            | West -> (center_x, center_y - (size / 2))
+            | North -> (center_x - offset, center_y)
+            | South -> (center_x + offset, center_y)
+            | East -> (center_x, center_y + offset)
+            | West -> (center_x, center_y - offset)
 
         //Recursively generate the list of coords, starting from the last position, so the front of the ship is the first elem of the list (blocks = each coord of the ship)
-        let rec generateShipCoords (blocksLeft: int): Coord List = 
-            match blocksLeft with
-            | 0 -> []
-            | _ -> if size % 2 = 0 then (calculateCoords facing blocksLeft (x,y))::generateShipCoords(blocksLeft - 1) 
-                                   else (calculateCoords facing (blocksLeft - 1) (x,y))::generateShipCoords(blocksLeft - 1) //Adjust center for odd sizes
-        in generateShipCoords size
+        let rec generateShipCoords (currentBlock: int): Coord List = 
+            if currentBlock = size then
+                []
+            else
+                (calculateCoords facing (currentBlock) (frontx,fronty))::generateShipCoords (currentBlock + 1) 
+        
+        generateShipCoords 0
 
     //Calculate coords for each different ship
     let calculateCoordsByShip (center: Coord) (name: Name) (facing: Direction): Coord List =

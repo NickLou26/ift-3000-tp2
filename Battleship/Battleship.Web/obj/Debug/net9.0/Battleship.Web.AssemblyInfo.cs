@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Battleship.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a4a32ea09cc9f522ec8ecea1d3a3a6d14906a9e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f27be505fb08e738f94cf6a45d2b22534541a776")]
 [assembly: System.Reflection.AssemblyProductAttribute("Battleship.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Battleship.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
