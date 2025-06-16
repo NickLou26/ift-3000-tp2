@@ -36,7 +36,7 @@ module Navigation =
         (nbRows, nbColumns)
     
     //Function to get a list of all Active sectors in a row
-    let getAllActiveSectorRow (sectorList: Sector List) (rowIndex: int): Coord List =
+    let getAllSectorRow (sectorList: Sector List) (rowIndex: int): Coord List =
         //Recursive function to iterate through the row. Store all coords in a list
         let rec checkRow sectorList sectorIndex =
             match sectorList with
@@ -52,25 +52,13 @@ module Navigation =
         //Call recursive function
         checkRow sectorList 0
 
-    //Function to get a list of all Active sectors in a grid
-    let getAllActiveSector (grid: Sector Grid): Coord List =
-        //Recursive function to iterate through the grid. Store all coords in a list
-        let rec checkGrid grid rowIndex =
-            match grid with
-            //If empty, return empty list
-            | Empty -> []
-            //If row, check individual sector with getAllActiveSectorRow (returns a list of coords) and concatenate with recursive call on checkGrid
-            | Row (sectorList, restGrid) -> (getAllActiveSectorRow sectorList rowIndex)@(checkGrid restGrid (rowIndex + 1))
-        //Call recursive function
-        checkGrid grid 0
-
     //Function to verify if the new coords can move
     let canPlaceCoords (coords: Coord List) (grid: Sector Grid) (coordsToExclude: Coord List) (checkPerimeter: bool): bool =
         //Get dimensions of the grid
         let (dimx, dimy) = getDimsGrid grid
 
         //Get a list of coords of all active sectors
-        let allActiveCoords = getAllActiveSector grid
+        let allActiveCoords = Grid.getAllSector grid getAllSectorRow
 
         //Remove coords from coordsToExclude list from the allActiveCoords list. Useful for canMove (exclude old ship coords)
         let allActiveCoords = List.filter (fun coord -> not (List.contains coord coordsToExclude)) allActiveCoords
@@ -113,7 +101,7 @@ module Navigation =
             size / 2
 
     //Get a new center of a moved ship
-    let getNewCenter (movedShipCoords: Coord List) (name: Name) : Coord =
+    let getNewCenter (movedShipCoords: Coord List) : Coord =
         
         //Get the pos of the center block of the ship
         let centerBlockPos = getCenterBlockPos (List.length movedShipCoords)
@@ -132,45 +120,31 @@ module Navigation =
         getCenterBlockCoords movedShipCoords 0
 
     let getRotateCoords (coords: Coord List) (oldDirection: Direction) (newDirection: Direction): Coord List = 
-        
-
-        let isOppositeDirection = 
-            (oldDirection = North && newDirection = South)
-            || (oldDirection = South && newDirection = North)
-            || (oldDirection = East && newDirection = West)
-            || (oldDirection = West && newDirection = East)
-
         let centerBlockPos = getCenterBlockPos (List.length coords)
 
         let rotatedCoords = (List.mapi (fun currentPos (x, y) -> 
             let distanceFromCenter = centerBlockPos - currentPos
-            match oldDirection with
-            | North -> 
-                match newDirection with
-                | East -> (x + distanceFromCenter, y + distanceFromCenter)    //From north to east
-                | West -> (x + distanceFromCenter, y - distanceFromCenter)    //From north to west
-                | _ -> (0,0) //Should not happen
-            | South -> 
-                match newDirection with
-                | East -> (x - distanceFromCenter, y + distanceFromCenter)    //From south to east
-                | West -> (x - distanceFromCenter, y - distanceFromCenter)    //From south to west
-                | _ -> (0,0) //Should not happen
-            | East ->         
-                match newDirection with
-                | North -> (x - distanceFromCenter, y - distanceFromCenter)    //From east to north
-                | South -> (x + distanceFromCenter, y - distanceFromCenter)    //From east to south
-                | _ -> (0,0) //Should not happen
-            | West -> 
-                match newDirection with
-                | North -> (x - distanceFromCenter, y + distanceFromCenter)    //From west to north
-                | South -> (x + distanceFromCenter, y + distanceFromCenter)    //From west to south
-                | _ -> (0,0) //Should not happen
+            match oldDirection, newDirection with
+            | North, East ->    (x + distanceFromCenter, y + distanceFromCenter)    //From north to east
+            | North, West ->    (x + distanceFromCenter, y - distanceFromCenter)    //From north to west
+            | North, South ->   (x + (distanceFromCenter * 2), y)                   //From north to south
+
+            | South, East ->    (x - distanceFromCenter, y + distanceFromCenter)    //From south to east
+            | South, West ->    (x - distanceFromCenter, y - distanceFromCenter)    //From south to west
+            | South, North ->   (x - (distanceFromCenter * 2), y)                   //From south to north
+
+            | East, North ->    (x - distanceFromCenter, y - distanceFromCenter)    //From east to north      
+            | East, South ->    (x + distanceFromCenter, y - distanceFromCenter)    //From east to south
+            | East, West ->     (x, y  - (distanceFromCenter * 2))                  //From east to west
+
+            | West, North ->    (x - distanceFromCenter, y + distanceFromCenter)    //From west to north
+            | West, South ->    (x + distanceFromCenter, y + distanceFromCenter)    //From west to south
+            | West, East ->     (x, y  + (distanceFromCenter * 2))                  //From west to east
+            | _, _ -> (0,0)
+
         ) coords)
 
-        if isOppositeDirection then
-            List.rev coords
-        else
-            rotatedCoords
+        rotatedCoords
 
     let canPlace (center: Coord) (direction: Direction) (name: Name) (grid: Sector Grid) : bool =
         //Get a list of coords of the ship to be place
@@ -192,7 +166,7 @@ module Navigation =
         let movedShipCoords = getMoveCoords ship.Coords direction
 
         //Get the center block coords based on the moved ship coords and the center block position
-        let centerBlockCoords = getNewCenter movedShipCoords ship.Name
+        let centerBlockCoords = getNewCenter movedShipCoords
 
         //Ship with new coords and center
         let movedShip = {
@@ -214,41 +188,48 @@ module Navigation =
     let rotate (ship: Ship) (direction: Direction) : Ship =
         //Coords of moved ship
         let rotatedShipCoords = getRotateCoords ship.Coords ship.Facing direction
-
-        //Get the center block coords based on the rotated ship coords and the center block position
-        let centerBlockCoords = getNewCenter rotatedShipCoords ship.Name
         
         //Ship with new coords and direction
         let rotatedShip = {
             ship with
                 Coords = rotatedShipCoords
-                //Center = centerBlockCoords
                 Facing = direction
         }
 
         rotatedShip
 
     let canMoveForward (ship: Ship) (grid: Sector Grid) : bool =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        false
+        //Coords of moved ship
+        let movedShipCoords = getMoveCoords ship.Coords ship.Facing
+
+        //Verifies if coords can be placed with new coords. Send current ship coords to exclude from checking. Send false to remove perimeters from checks
+        canPlaceCoords movedShipCoords grid ship.Coords false
 
     let moveForward (ship: Ship) : Ship =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        { Coords = []; Center = (0, 0); Facing = North; Name = Spy }
+        move ship ship.Facing
 
     let getNextDirection (current: Direction) (rotation: Rotation) : Direction =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        North
+        match current, rotation with
+        | North, Clockwise -> East
+        | North, Counterclockwise -> West
+        | East, Clockwise -> South
+        | East, Counterclockwise -> North
+        | South, Clockwise -> West
+        | South, Counterclockwise -> East
+        | West, Clockwise -> North
+        | West, Counterclockwise -> South
 
     let canRotateForward (ship: Ship) (rotation: Rotation) (grid: Sector Grid) : bool =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        false
+        //Coords of rotated ship
+        let rotatedCoords = getRotateCoords ship.Coords ship.Facing (getNextDirection ship.Facing rotation)
+        //Coords of rotated and moved ship
+        let movedAndRotatedCoords = getMoveCoords rotatedCoords (getNextDirection ship.Facing rotation)
+
+        //Verifies if coords can be placed with new coords. Send current ship coords to exclude from checking. Send false to remove perimeters from checks
+        canPlaceCoords movedAndRotatedCoords grid ship.Coords false
 
     let rotateForward (ship: Ship) (rotation: Rotation) : Ship =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        { Coords = []; Center = (0, 0); Facing = North; Name = Spy }
+        //Ship with rotated coords
+        let rotatedShip = rotate ship (getNextDirection ship.Facing rotation)
+        //Ship with rotated and moved ship
+        move rotatedShip (getNextDirection ship.Facing rotation)

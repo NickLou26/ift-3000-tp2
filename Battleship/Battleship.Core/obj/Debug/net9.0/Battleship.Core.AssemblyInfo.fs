@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("Battleship.Core")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f27be505fb08e738f94cf6a45d2b22534541a776")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+28c5672c679660bc63f02cd9f84d574f5f176ddc")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("Battleship.Core")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("Battleship.Core")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]

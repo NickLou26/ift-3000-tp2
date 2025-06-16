@@ -1,7 +1,7 @@
-Version .NET :
+Version .NET : 4.8
 
-OS :
+OS : Windows 11
 
-IDE :
+IDE : Visual Studio 2022
 
-Commentaires (facultatif) :
+Commentaires (facultatif) : Equipe de 1

@@ -7,7 +7,6 @@ module Battlefield =
 
     type Data = { Dims: Dims; Ships: Ship list }
 
-
     //Go to specific coord and do something
     let getSector (grid: Sector Grid) (coord: Coord) f =
         //Get x and y of coord
@@ -100,6 +99,39 @@ module Battlefield =
         //Call recursive function
         iterGrid grid extractDataFromGrid
 
+    //Function to find a ship's direction based on the last coordinate
+    let findDirection existingX x pos =
+        //If the new x coord is the same as the existing one, direction is vertical (North or South)
+        if existingX = x then
+            if pos = 2 then
+                North
+            else
+                South
+        //If not vertical, then direction is horizontal (East or West)
+        else
+            if pos = 2 then
+                West
+            else
+                East
+
+     //Function to get a list of all Active sectors in a row
+    let getAllSectorRow (sectorList: Sector List) (rowIndex: int) =
+        //Recursive function to iterate through the row. Store all coords in a list
+        let rec checkRow sectorList sectorIndex =
+            match sectorList with
+            //If reached the end of the list, return empty list
+            | [] -> []
+            //If there is a sector, match
+            | sector::restSectors ->
+                match sector with
+                //If the sector is clear, check the rest of the row
+                | Clear -> (checkRow restSectors (sectorIndex + 1))
+                //If the sector is active, add the current coord to the list and check the rest of the row recursively
+                | Active(name,pos) -> (name, pos, rowIndex, sectorIndex)::checkRow restSectors (sectorIndex + 1)
+        //Call recursive function
+        checkRow sectorList 0
+    
+
     //Initiate a grid based on the passed Dims. All the sectors are set to Clear
     let initClearGrid (dims: Dims) : Sector Grid =
         //Get the dimensions of the grid
@@ -123,15 +155,15 @@ module Battlefield =
         //posBlock is the # of the block of the ship (front of the ship is 0 and last is size of the ship -1)
         let rec toggleSectorsOfShipCoords grid' shipCoords posBlock = 
             //Create new sector with Active type containing ship name and block #
-            let newSector = Active(ship.Name, posBlock - 1)
+            let newSector = Active(ship.Name, posBlock)
             match shipCoords with
             //If we reach the end of the ship's coord list, return the grid
             | [] -> grid'
             //Update the sectors, then go to the next coord recursively
-            | coord::restCoord -> toggleSectorsOfShipCoords (setSector grid' coord newSector) restCoord (posBlock - 1)
+            | coord::restCoord -> toggleSectorsOfShipCoords (setSector grid' coord newSector) restCoord (posBlock + 1)
         
         //Call the recursive fun
-        toggleSectorsOfShipCoords grid ship.Coords (List.length ship.Coords)
+        toggleSectorsOfShipCoords grid ship.Coords 0
 
     let replaceShip (ship: Ship) (grid: Sector Grid) : Sector Grid =
         //New grid with removed ship
@@ -151,32 +183,87 @@ module Battlefield =
         getSector grid coord retrieveName
 
     let extractData (grid: Sector Grid) : Data =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-  
-        //let extractDataFromGrid sector x y =
-        //    match sector with
-        //    | Clear -> Clear
-        //    | Active (name, blockPos) -> 
-        //        match name with
-        //        | Spy ->
-        //            let spyCoords: Coord List = (x, y)::spyCoords
-        //            let spyShip = {
-        //                Coords = spyCoords
-        //                Center = (0,0)
-        //                Facing = North
-        //                Name = Spy
-        //            }
-        //            Clear
-        //        | 
-        //        let test = name::test
-        //        Active(Spy,1)
-                
+        //Calculate the dimensions of the grid
+        let dimsGrid = Navigation.getDimsGrid grid
 
-        //iterGrid grid extractDataFromGrid
-        { Dims = (0, 0); Ships = [] }
+        //Organize the list of all active sectors : Sorts all the sectors of the same ships in order of the block#
+        let rec orgranizeData list =
+            match list with
+            | [] -> []
+            | (newShipName, _, _, _)::_ -> 
+                let rest = List.filter (fun (name, _, _, _) -> not (name = newShipName)) list
+                let newShipInfo = List.filter (fun (name, _, _, _) -> name = newShipName) list
+                let orderedShipInfo = List.sortBy (fun (_, pos, _, _) -> pos) newShipInfo
+                orderedShipInfo @ orgranizeData rest
+
+        //Creates a list of ships with the organized data, there will be duplicates and all center and facing will be default
+        let rec createShipListFromOrganizedData list =
+            match list with
+            | [] -> []
+            | (shipName, pos, x, y)::rest ->
+                {Name = shipName; Coords = [(x, y)]; Center = (0,0); Facing = North}::(createShipListFromOrganizedData rest)
+
+        //Iterate through the list and combines the coords of the ships with the same name
+        let rec removeDups list =
+            match list with
+            | [] -> []
+            | [ship] -> [ship]
+            | ship1::ship2::rest ->
+                if ship1.Name = ship2.Name then
+                    let combinedShip = {ship1 with Coords = ship1.Coords@ship2.Coords}
+                    removeDups(combinedShip::rest)
+                else
+                    ship1::removeDups(ship2::rest)
+        //Determine the center of each ship
+        let calculateCenters list =    
+            List.map (fun ship ->
+                {
+                    ship with Center = Navigation.getNewCenter ship.Coords
+                }
+            ) list
+
+        let calculateDirection list =       
+            List.map (fun ship ->
+                let (x1, y1) = List.head ship.Coords
+                let (x2, y2) = List.last ship.Coords
+                let newDirection = 
+                    if x1 = x2 then         //If horizontal
+                        if y1 < y2 then
+                            West
+                        else                
+                            East
+                    else                    //If vertical
+                        if x1 < x2 then
+                            North
+                        else
+                            South
+                {
+                    ship with Facing = newDirection
+                }
+            ) list
+
+        let listOfShips = 
+            Grid.getAllSector grid getAllSectorRow  //Get a list of all active sectors as (name, pos, rowIndex, sectorIndex)
+            |> orgranizeData                        //Organize data in order by block# and ship name
+            |> createShipListFromOrganizedData      //Create a list of ships from the previously organized data
+            |> removeDups                           //Combies coord of ships with same name, keeping the order
+            |> calculateCenters                     //Set the center to each ship
+            |> calculateDirection                   //Set the direction to each ship
+
+        { Dims = dimsGrid; Ships = listOfShips }
 
     let loadData (data: Data) : Sector Grid =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        Empty
+        //Create a new grid full of clear sectors
+        let newGrid = initClearGrid data.Dims
+      
+        //Update the sectors with the ships
+        let rec loadShips listOfShips grid =
+            match listOfShips with
+            | [] -> grid
+            | ship::rest -> 
+                loadShips rest (addShip ship grid) 
+        
+        loadShips data.Ships newGrid
+     
+
+        

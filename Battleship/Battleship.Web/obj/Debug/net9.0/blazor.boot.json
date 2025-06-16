@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Battleship.Web",
   "resources": {
-    "hash": "sha256-vNeMis5spIXgpmP6otFLiKylPNqAYOvdLfNOM9kD/2w=",
+    "hash": "sha256-bVj8xGThWUSzDHuajDGl5SGPfjC2ZcrJEEQexigkuXU=",
     "fingerprinting": {
       "FSharp.Core.k3y0qixug0.wasm": "FSharp.Core.wasm",
       "Microsoft.AspNetCore.Authorization.gf26ou9jj9.wasm": "Microsoft.AspNetCore.Authorization.wasm",
@@ -215,10 +215,10 @@
       "icudt_CJK.tjcz0u77k5.dat": "icudt_CJK.dat",
       "icudt_EFIGS.tptq2av103.dat": "icudt_EFIGS.dat",
       "icudt_no_CJK.lfu7j35m59.dat": "icudt_no_CJK.dat",
-      "Battleship.Core.pjzo3vz000.wasm": "Battleship.Core.wasm",
-      "Battleship.Core.dlm0mn68s3.pdb": "Battleship.Core.pdb",
-      "Battleship.Web.mzqkp9428c.wasm": "Battleship.Web.wasm",
-      "Battleship.Web.d45rtpg7zx.pdb": "Battleship.Web.pdb"
+      "Battleship.Core.buf6ohisrb.wasm": "Battleship.Core.wasm",
+      "Battleship.Core.vohohr6i4i.pdb": "Battleship.Core.pdb",
+      "Battleship.Web.zhx1cbkfw5.wasm": "Battleship.Web.wasm",
+      "Battleship.Web.ax9bk1janr.pdb": "Battleship.Web.pdb"
     },
     "jsModuleNative": {
       "dotnet.native.rtblh4npr3.js": "sha256-HyBzcYNpT2l19+f1bpjNOa1oFoLe3K4JIQ6GsFK5m6I="
@@ -429,12 +429,12 @@
       "WindowsBase.u25hol0de4.wasm": "sha256-CgB28KCiYKHd4yK6IM0PJ526P7IbRCpNkGTqn+cLwxs=",
       "mscorlib.brg9pkj3je.wasm": "sha256-FzZwzxUYYyg3qxc7Km8r50UKAmRWrIeckSFG1NTHKNU=",
       "netstandard.wuzd3f1y6v.wasm": "sha256-yAXc0deBIRkWTVXqADZfhgZtrxGgJCIbZYVtA0NjvdM=",
-      "Battleship.Core.pjzo3vz000.wasm": "sha256-9bhnOkHMIXcf+oWX5WnS8/dLgRhZIWBc80+jaNom27k=",
-      "Battleship.Web.mzqkp9428c.wasm": "sha256-Xv1/xeLod0WlX5J5uVvHP+uncALG6ToKlF2Tm2f7PuM="
+      "Battleship.Core.buf6ohisrb.wasm": "sha256-s7EVLCkmb49J6+RrUifOTTdk2JxmSDuuQEGyzT5QuiI=",
+      "Battleship.Web.zhx1cbkfw5.wasm": "sha256-KQhfbABJUZbQL9wzO4bdveqMTyPfNseynzsrtcEdhMM="
     },
     "pdb": {
-      "Battleship.Core.dlm0mn68s3.pdb": "sha256-YWQNNanv61ZN0Jy3t2PdKHbJr30v8Mo2RflaE0V/hQk=",
-      "Battleship.Web.d45rtpg7zx.pdb": "sha256-rVNwWNUl3j4cCAaek/gDNVhamynsdYLIEkMhfwObUSs="
+      "Battleship.Core.vohohr6i4i.pdb": "sha256-cbNEiSyWAXbwQxhvskzTejOgEw9dDY8zIn1OelbBRAs=",
+      "Battleship.Web.ax9bk1janr.pdb": "sha256-/u4S49jICuxCkGsVvTTJ3yqFNNXIompb3nULQWNHDa8="
     },
     "satelliteResources": {
       "cs": {
