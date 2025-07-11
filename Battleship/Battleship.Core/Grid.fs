@@ -8,9 +8,6 @@ module Grid =
 
     type 'a Grid = Empty | Row of 'a list * 'a Grid
 
-    (* ------- À COMPLÉTER ------- *)
-    (* --- Nouvelles fonctions --- *)
-
     //Function to get a list of all sectors in a grid and apply a function to each sector
     let getAllSector grid f =
         //Recursive function to iterate through the grid. Store all coords in a list

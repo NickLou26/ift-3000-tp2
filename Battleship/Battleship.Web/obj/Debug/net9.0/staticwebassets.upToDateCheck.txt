@@ -1,4 +1,5 @@
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp1\Battleship\Battleship.Web\wwwroot\css\app.css
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp1\Battleship\Battleship.Web\wwwroot\index.html
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\wwwroot\css\app.css
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\wwwroot\index.html
 wwwroot\css\app.css
+wwwroot\icon-192.png
 wwwroot\index.html

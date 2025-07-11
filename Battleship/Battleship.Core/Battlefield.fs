@@ -93,9 +93,9 @@ module Battlefield =
             //If clear, stay clear
             | Clear -> Clear
             //If active and name = shipName, clear
-            | Active (name, _) when name = shipName -> Clear
+            | Active (name, _, _) when name = shipName -> Clear
             //If active and name != shipName, copy sector
-            | Active (name, pos) -> Active (name, pos) 
+            | Active (name, pos, _) -> Active (name, pos, false)
         //Call recursive function
         iterGrid grid extractDataFromGrid
 
@@ -127,7 +127,7 @@ module Battlefield =
                 //If the sector is clear, check the rest of the row
                 | Clear -> (checkRow restSectors (sectorIndex + 1))
                 //If the sector is active, add the current coord to the list and check the rest of the row recursively
-                | Active(name,pos) -> (name, pos, rowIndex, sectorIndex)::checkRow restSectors (sectorIndex + 1)
+                | Active(name,pos, _) -> (name, pos, rowIndex, sectorIndex)::checkRow restSectors (sectorIndex + 1)
         //Call recursive function
         checkRow sectorList 0
     
@@ -155,7 +155,7 @@ module Battlefield =
         //posBlock is the # of the block of the ship (front of the ship is 0 and last is size of the ship -1)
         let rec toggleSectorsOfShipCoords grid' shipCoords posBlock = 
             //Create new sector with Active type containing ship name and block #
-            let newSector = Active(ship.Name, posBlock)
+            let newSector = Active(ship.Name, posBlock, false)
             match shipCoords with
             //If we reach the end of the ship's coord list, return the grid
             | [] -> grid'
@@ -178,7 +178,7 @@ module Battlefield =
             //If sector is clear return none
             | Clear -> None
             //If sector is active return ship name
-            | Active (name, _) -> Some name
+            | Active (name, _, _) -> Some name
 
         getSector grid coord retrieveName
 
@@ -264,6 +264,49 @@ module Battlefield =
                 loadShips rest (addShip ship grid) 
         
         loadShips data.Ships newGrid
+
+    (* ------- À COMPLÉTER ------- *)
+    (* --- Nouvelles fonctions --- *)
+
+    //let replaceShip (ship: Ship) (grid: Sector Grid) : Sector Grid =
+    //    (* ------- À COMPLÉTER ------- *)
+    //    (* ----- Implémentation ------ *)
+    //    grid
+
+    let getFog (grid: Sector Grid) (drone: Coord) : bool Grid =
+        (* ------- À COMPLÉTER ------- *)
+        (* ----- Implémentation ------ *)
+        Empty
+
+    let isRevealed (coord: Coord) (fog: bool Grid) : bool =
+        (* ------- À COMPLÉTER ------- *)
+        (* ----- Implémentation ------ *)
+        false
+
+    let getTorpedoes (grid: Sector Grid) : Coord list =
+        (* ------- À COMPLÉTER ------- *)
+        (* ----- Implémentation ------ *)
+        []
+
+    let isHit (coord: Coord) (grid: Sector Grid) : bool =
+        (* ------- À COMPLÉTER ------- *)
+        (* ----- Implémentation ------ *)
+        false
+
+    let canHit (coord: Coord) (grid: Sector Grid) : bool =
+        (* ------- À COMPLÉTER ------- *)
+        (* ----- Implémentation ------ *)
+        false
+
+    let hit (coord: Coord) (grid: Sector Grid) : Sector Grid =
+        (* ------- À COMPLÉTER ------- *)
+        (* ----- Implémentation ------ *)
+        grid
+
+    let getRemainingHealth (name: Name) (grid: Sector Grid) : int =
+        (* ------- À COMPLÉTER ------- *)
+        (* ----- Implémentation ------ *)
+        0
      
 
         

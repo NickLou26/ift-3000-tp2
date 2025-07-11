@@ -4,7 +4,7 @@ module Navigation =
     open Grid
     open Ship
 
-    type Sector = Clear | Active of Name * int
+    type Sector = Clear | Active of Name * int * bool | Torpedo
 
     type Rotation =
         | Clockwise
@@ -48,7 +48,7 @@ module Navigation =
                 //If the sector is clear, check the rest of the row
                 | Clear -> (checkRow restSectors (sectorIndex + 1))
                 //If the sector is active, add the current coord to the list and check the rest of the row recursively
-                | Active(_,_) -> (rowIndex, sectorIndex)::(checkRow restSectors (sectorIndex + 1))
+                | Active(_,_,_) -> (rowIndex, sectorIndex)::(checkRow restSectors (sectorIndex + 1))
         //Call recursive function
         checkRow sectorList 0
 
@@ -233,3 +233,16 @@ module Navigation =
         let rotatedShip = rotate ship (getNextDirection ship.Facing rotation)
         //Ship with rotated and moved ship
         move rotatedShip (getNextDirection ship.Facing rotation)
+
+    (* ------- À COMPLÉTER ------- *)
+    (* --- Nouvelles fonctions --- *)
+
+    let canMoveDrone (drone: Coord) (direction: Direction) (grid: Sector Grid) : bool =
+        (* ------- À COMPLÉTER ------- *)
+        (* ----- Implémentation ------ *)
+        false
+
+    let moveDrone (drone: Coord) (direction: Direction) : Coord =
+        (* ------- À COMPLÉTER ------- *)
+        (* ----- Implémentation ------ *)
+        drone

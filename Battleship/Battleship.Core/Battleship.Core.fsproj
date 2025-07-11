@@ -6,12 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Stream.fs" />
     <Compile Include="Grid.fs" />
     <Compile Include="Ship.fs" />
 	  <Compile Include="Navigation.fs" />
 	  <Compile Include="Conversion.fs" />
 	  <Compile Include="Battlefield.fs" />
 	  <Compile Include="Serialization.fs" />
+	  <Compile Include="Intelligence.fs" />
   </ItemGroup>
 
 </Project>
