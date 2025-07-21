@@ -6,10 +6,6 @@ F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\Battleship.Web.csproj.CoreCompileInputs.cache
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\Battleship.Web.MvcApplicationPartsAssemblyInfo.cache
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\Battleship.Web.sourcelink.json
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Core.fxx35ats06.pdb
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Core.r70t2t6ne6.wasm
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Web.yt2zdjtz45.pdb
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Web.6knxmzne7i.wasm
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\blazor.boot.json
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\blazor.webassembly.js
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\cs\FSharp.Core.resources.rsmfvqbo5o.wasm
@@ -265,7 +261,6 @@ F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Microsoft.Extensions.Logging.4of5ydne24.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Resources.ResourceManager.pdb0cwov9g.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.IO.FileSystem.gyxexdekj3.wasm.gz
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Web.yt2zdjtz45.pdb.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Data.3adg3wr0gn.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Globalization.Calendars.x0sb683rhi.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Runtime.Serialization.Xml.6heyz9oosd.wasm.gz
@@ -285,7 +280,6 @@ F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Threading.Tasks.Parallel.548crbk151.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Runtime.xqvdvko8po.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Linq.3djr1lshgb.wasm.gz
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Core.r70t2t6ne6.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Microsoft.Win32.Primitives.nt18748s0w.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.IO.Pipes.AccessControl.qfh40ih8l6.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Numerics.Vectors.i6kirq3og4.wasm.gz
@@ -378,7 +372,6 @@ F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Threading.Tasks.Extensions.sce61xpslf.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Collections.Immutable.dufaq3kp3z.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Net.Http.eupgag7vx5.wasm.gz
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Web.6knxmzne7i.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\mscorlib.brg9pkj3je.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Runtime.Intrinsics.eoagj84dsy.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Runtime.InteropServices.fel5k50x7l.wasm.gz
@@ -414,7 +407,6 @@ F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Microsoft.Extensions.Configuration.FileExtensions.s0gdlcb6vn.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Runtime.Serialization.Formatters.nvsnsgm1il.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Net.HttpListener.m0tberhw26.wasm.gz
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Core.fxx35ats06.pdb.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\System.Net.WebHeaderCollection.odv41wuu54.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\es\FSharp.Core.resources.b796rnjsue.wasm.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\dotnet.native.aqhezbunpl.wasm.gz
@@ -1096,11 +1088,6 @@ F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\j1k380s6d0-tjcz0u77k5.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\t78vtkroil-tptq2av103.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\e4k48f1xi5-lfu7j35m59.gz
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\92vndb7s49-r70t2t6ne6.gz
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\tr2o5juktm-fxx35ats06.gz
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\nbnip7lth5-6knxmzne7i.gz
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\5p6loiy7wo-yt2zdjtz45.gz
-F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\caask7twpi-imjdw2g4ni.gz
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\staticwebassets.build.json
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\staticwebassets.build.json.cache
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\staticwebassets.development.json
@@ -1111,3 +1098,16 @@ F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\refint\Battleship.Web.dll
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\Battleship.Web.pdb
 F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\ref\Battleship.Web.dll
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Web.vhk7kyd5gi.pdb
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Web.4vvjsllstt.wasm
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Web.vhk7kyd5gi.pdb.gz
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Web.4vvjsllstt.wasm.gz
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\nbnip7lth5-4vvjsllstt.gz
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\5p6loiy7wo-vhk7kyd5gi.gz
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Core.uk78p81wai.pdb
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Core.jvmwn8000c.wasm
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Core.jvmwn8000c.wasm.gz
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\bin\Debug\net9.0\wwwroot\_framework\Battleship.Core.uk78p81wai.pdb.gz
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\92vndb7s49-jvmwn8000c.gz
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\tr2o5juktm-uk78p81wai.gz
+F:\uLaval\Ete 2025\IFT-3000\ift-3000-tp2\Battleship\Battleship.Web\obj\Debug\net9.0\compressed\caask7twpi-uc5aoin23k.gz

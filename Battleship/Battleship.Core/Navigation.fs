@@ -36,7 +36,7 @@ module Navigation =
         (nbRows, nbColumns)
     
     //Function to get a list of all Active sectors in a row
-    let getAllSectorRow (sectorList: Sector List) (rowIndex: int): Coord List =
+    let getAllActiveSectors (sectorList: Sector List) (rowIndex: int): Coord List =
         //Recursive function to iterate through the row. Store all coords in a list
         let rec checkRow sectorList sectorIndex =
             match sectorList with
@@ -46,36 +46,38 @@ module Navigation =
             | sector::restSectors ->
                 match sector with
                 //If the sector is clear, check the rest of the row
-                | Clear -> (checkRow restSectors (sectorIndex + 1))
+                | Clear | Torpedo -> (checkRow restSectors (sectorIndex + 1))
                 //If the sector is active, add the current coord to the list and check the rest of the row recursively
                 | Active(_,_,_) -> (rowIndex, sectorIndex)::(checkRow restSectors (sectorIndex + 1))
         //Call recursive function
         checkRow sectorList 0
 
     //Function to verify if the new coords can move
-    let canPlaceCoords (coords: Coord List) (grid: Sector Grid) (coordsToExclude: Coord List) (checkPerimeter: bool): bool =
+    let canPlaceCoords (coords: Coord List) (grid: Sector Grid) (coordsToExclude: Coord List) (checkPerimeter: bool) (isDroneCheck: bool): bool =
         //Get dimensions of the grid
         let (dimx, dimy) = getDimsGrid grid
 
         //Get a list of coords of all active sectors
-        let allActiveCoords = Grid.getAllSector grid getAllSectorRow
+        let allActiveCoords = Grid.getAllSector grid getAllActiveSectors
 
         //Remove coords from coordsToExclude list from the allActiveCoords list. Useful for canMove (exclude old ship coords)
         let allActiveCoords = List.filter (fun coord -> not (List.contains coord coordsToExclude)) allActiveCoords
 
-        //Get a list of all perimeter coords if checkPerimeter is true. Useful for difference between Play and Fleet Deployment
-        let allPerimeter = 
-            if checkPerimeter then 
-                Ship.getPerimeterCoords allActiveCoords (dimx, dimy)
-            else
-                []
-
         //Verifies if newShipCoords has coords that are out of bounds
         let outOfBounds = List.exists (fun (x, y) -> x < 0 || x > (dimx - 1) || y < 0 || y > (dimy - 1)) coords
         //Verifies if newShipCoords has coords that are on an active sector
-        let onActiveSector = List.exists (fun elem -> List.contains elem allActiveCoords) coords
+        let onActiveSector = 
+            if isDroneCheck then
+                false
+            else
+                List.exists (fun elem -> List.contains elem allActiveCoords) coords
+
         //Verifies if newShipCoords has coords that are on a perimeter
-        let onPerimeter = List.exists (fun elem -> List.contains elem allPerimeter) coords
+        let onPerimeter = 
+            if checkPerimeter then
+                List.exists (fun elem -> List.contains elem (Ship.getPerimeterCoords allActiveCoords (dimx, dimy))) coords
+            else
+                false
         
         //All verifications
         not outOfBounds && not onActiveSector && not onPerimeter
@@ -151,7 +153,7 @@ module Navigation =
         let newShipCoords = (Ship.calculateCoordsByShip center name direction)
 
         //Verifies if coords can be placed with coords
-        canPlaceCoords newShipCoords grid [] true
+        canPlaceCoords newShipCoords grid [] true false
        
 
     let canMove (ship: Ship) (direction: Direction) (grid: Sector Grid) : bool =
@@ -159,7 +161,7 @@ module Navigation =
         let movedShipCoords = getMoveCoords ship.Coords direction
 
         //Verifies if coords can be placed with new coords. Send current ship coords to exclude from checking
-        canPlaceCoords movedShipCoords grid ship.Coords true
+        canPlaceCoords movedShipCoords grid ship.Coords true false
 
     let move (ship: Ship) (direction: Direction) : Ship =
         //Coords of moved ship
@@ -183,7 +185,7 @@ module Navigation =
         let rotatedShipCoords = getRotateCoords ship.Coords ship.Facing direction
 
         //Verifies if coords can be placed with new coords. Send current ship coords to exclude from checking
-        canPlaceCoords rotatedShipCoords grid ship.Coords true
+        canPlaceCoords rotatedShipCoords grid ship.Coords true false
 
     let rotate (ship: Ship) (direction: Direction) : Ship =
         //Coords of moved ship
@@ -203,7 +205,7 @@ module Navigation =
         let movedShipCoords = getMoveCoords ship.Coords ship.Facing
 
         //Verifies if coords can be placed with new coords. Send current ship coords to exclude from checking. Send false to remove perimeters from checks
-        canPlaceCoords movedShipCoords grid ship.Coords false
+        canPlaceCoords movedShipCoords grid ship.Coords false false
 
     let moveForward (ship: Ship) : Ship =
         move ship ship.Facing
@@ -226,7 +228,7 @@ module Navigation =
         let movedAndRotatedCoords = getMoveCoords rotatedCoords (getNextDirection ship.Facing rotation)
 
         //Verifies if coords can be placed with new coords. Send current ship coords to exclude from checking. Send false to remove perimeters from checks
-        canPlaceCoords movedAndRotatedCoords grid ship.Coords false
+        canPlaceCoords movedAndRotatedCoords grid ship.Coords false false
 
     let rotateForward (ship: Ship) (rotation: Rotation) : Ship =
         //Ship with rotated coords
@@ -234,15 +236,12 @@ module Navigation =
         //Ship with rotated and moved ship
         move rotatedShip (getNextDirection ship.Facing rotation)
 
-    (* ------- À COMPLÉTER ------- *)
-    (* --- Nouvelles fonctions --- *)
-
     let canMoveDrone (drone: Coord) (direction: Direction) (grid: Sector Grid) : bool =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        false
+        //Coords of moved drone
+        let movedDroneCoords = getMoveCoords [drone] direction
+
+        //Verifies if coords can be placed with new coords. Send current ship coords to exclude from checking
+        canPlaceCoords movedDroneCoords grid [] false true
 
     let moveDrone (drone: Coord) (direction: Direction) : Coord =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        drone
+        List.head (getMoveCoords [drone] direction)

@@ -7,12 +7,13 @@ module Battlefield =
 
     type Data = { Dims: Dims; Ships: Ship list }
 
+    let hitPosList = ref []; //List of hit positions, used to store the hit positions of ships
+
     //Go to specific coord and do something
-    let getSector (grid: Sector Grid) (coord: Coord) f =
+    let getSector (grid) (coord: Coord) f =
         //Get x and y of coord
         let (x, y) = coord
 
-        //Check if sector is Active, return name if active or none if clear
         let checkSectorStatus sector =
             //Call passed fun
             f sector
@@ -42,8 +43,15 @@ module Battlefield =
        
        //Goes to y coord with sectorIndex and updates the data with newSector on the passed row
         let updateSector (sectorIndex: int) (newSector: Sector) (row: Sector List): Sector List =
-            //Go through list. If i = sector index then return newSector, else return oldSector. Creates new list with the returns
-            List.mapi (fun i oldSector -> if i = sectorIndex then newSector else oldSector) row
+            //Go through list. If i = sector index then return newSector, else return oldSector. Creates new list with the returns. Match to check for impact with torpedo
+            List.mapi (fun i oldSector ->
+                if i = sectorIndex then
+                    match oldSector, newSector with
+                    | Torpedo, Active(name,pos,_) -> Active (name,pos,true)
+                    | _, _ -> newSector
+                else 
+                    oldSector
+                ) row
 
         //Recursively go through the grid
         let rec updateRow rowIndex grid =
@@ -63,41 +71,66 @@ module Battlefield =
         //Call the recursive fun
         updateRow 0 grid
 
-    //Iterate through the grid and apply f to each element
-    let iterGrid (grid: Sector Grid) f: Sector Grid =
-        //Apply f to each sector
-        let updateSector sector x y =
-            f sector x y
-
+    //Iterate through the grid and update each sector
+    let mapGrid f (grid: Sector Grid) =
         //Iterate through the sector list
-        let rec iterSectorList sectorList rowIndex sectorIndex: Sector List =
+        let rec iterSectorList sectorList x y =
             match sectorList with
             | [] -> []
-            | sector::restSectorList -> (updateSector sector rowIndex sectorIndex)::(iterSectorList restSectorList rowIndex (sectorIndex + 1))
+            | sector::restSectorList -> (f sector x y)::(iterSectorList restSectorList x (y + 1))
 
         //Iterate through the grid
-        let rec iterRows grid' rowIndex = 
+        let rec iterRows grid' x = 
             match grid' with
             | Empty -> Empty
             | Row (sectorList, restGrid) -> 
-                let updatedRow = (iterSectorList sectorList rowIndex 0)
-                Row(updatedRow, (iterRows restGrid (rowIndex + 1)))
+                let updatedRow = (iterSectorList sectorList x 0)
+                Row(updatedRow, (iterRows restGrid (x + 1)))
         
         //Call the recursive function
         iterRows grid 0
 
-    let removeShip (shipName: Name) (grid: Sector Grid) =
-        //Function passed to iterGrid
-        let extractDataFromGrid sector x y =
+    let removeShip (shipName: Name) (grid: Sector Grid): Sector Grid =
+        let updateSector sector x y =
             match sector with
             //If clear, stay clear
             | Clear -> Clear
             //If active and name = shipName, clear
             | Active (name, _, _) when name = shipName -> Clear
             //If active and name != shipName, copy sector
-            | Active (name, pos, _) -> Active (name, pos, false)
-        //Call recursive function
-        iterGrid grid extractDataFromGrid
+            | Active (name, pos, hit) -> Active (name, pos, hit)
+            //Keep torpedos
+            | Torpedo -> Torpedo
+        mapGrid updateSector grid
+
+    //Iterate through the grid and return a list of hit pos of ship
+    let getShipHitPos (shipName: Name) (grid: Sector Grid) =
+        hitPosList.Value <- [] //Reset the hit pos list
+        let getPosHit sector =
+            match sector with
+            //If active and name = shipName, remember hit pos
+            | Active (name, pos, hit) when name = shipName && hit -> hitPosList.Value <- (pos)::!hitPosList
+            //If not, ignore
+            | _ -> ()
+
+        //Iterate through the sector list
+        let rec iterSectorList sectorList =
+            match sectorList with
+            | [] -> ()
+            | sector::restSectorList -> 
+                getPosHit sector
+                iterSectorList restSectorList
+
+        //Iterate through the grid
+        let rec iterRows grid' = 
+            match grid' with
+            | Empty -> ()
+            | Row (sectorList, restGrid) -> 
+                iterSectorList sectorList
+                iterRows restGrid
+        
+        //Call the recursive function
+        iterRows grid
 
     //Function to find a ship's direction based on the last coordinate
     let findDirection existingX x pos =
@@ -115,7 +148,7 @@ module Battlefield =
                 East
 
      //Function to get a list of all Active sectors in a row
-    let getAllSectorRow (sectorList: Sector List) (rowIndex: int) =
+    let getAllActiveSectors (sectorList: Sector List) (rowIndex: int) =
         //Recursive function to iterate through the row. Store all coords in a list
         let rec checkRow sectorList sectorIndex =
             match sectorList with
@@ -125,12 +158,13 @@ module Battlefield =
             | sector::restSectors ->
                 match sector with
                 //If the sector is clear, check the rest of the row
-                | Clear -> (checkRow restSectors (sectorIndex + 1))
+                | Clear | Torpedo -> (checkRow restSectors (sectorIndex + 1))
                 //If the sector is active, add the current coord to the list and check the rest of the row recursively
-                | Active(name,pos, _) -> (name, pos, rowIndex, sectorIndex)::checkRow restSectors (sectorIndex + 1)
+                | Active(name,pos, isHit) -> (name, pos, isHit, rowIndex, sectorIndex)::checkRow restSectors (sectorIndex + 1)
+                   
         //Call recursive function
         checkRow sectorList 0
-    
+
 
     //Initiate a grid based on the passed Dims. All the sectors are set to Clear
     let initClearGrid (dims: Dims) : Sector Grid =
@@ -150,12 +184,13 @@ module Battlefield =
         initRows nbRows
 
     //Add a ship to the grid
-    let addShip (ship: Ship) (grid: Sector Grid) : Sector Grid =
+    let addShip (ship: Ship) (grid: Sector Grid): Sector Grid =
         //Recursively go through all the coords of the ship and update the sector based on the coords
         //posBlock is the # of the block of the ship (front of the ship is 0 and last is size of the ship -1)
         let rec toggleSectorsOfShipCoords grid' shipCoords posBlock = 
             //Create new sector with Active type containing ship name and block #
-            let newSector = Active(ship.Name, posBlock, false)
+            let posIsHit = List.contains posBlock !hitPosList //Check if the position is a hit
+            let newSector = Active(ship.Name, posBlock, posIsHit)
             match shipCoords with
             //If we reach the end of the ship's coord list, return the grid
             | [] -> grid'
@@ -166,6 +201,8 @@ module Battlefield =
         toggleSectorsOfShipCoords grid ship.Coords 0
 
     let replaceShip (ship: Ship) (grid: Sector Grid) : Sector Grid =
+        //Get the hit positions of the ship
+        getShipHitPos ship.Name grid
         //New grid with removed ship
         let updatedGrid = (removeShip ship.Name grid)
         //Add ship to updated grid
@@ -176,7 +213,7 @@ module Battlefield =
         let retrieveName sector =
             match sector with
             //If sector is clear return none
-            | Clear -> None
+            | Clear | Torpedo -> None
             //If sector is active return ship name
             | Active (name, _, _) -> Some name
 
@@ -190,17 +227,17 @@ module Battlefield =
         let rec orgranizeData list =
             match list with
             | [] -> []
-            | (newShipName, _, _, _)::_ -> 
-                let rest = List.filter (fun (name, _, _, _) -> not (name = newShipName)) list
-                let newShipInfo = List.filter (fun (name, _, _, _) -> name = newShipName) list
-                let orderedShipInfo = List.sortBy (fun (_, pos, _, _) -> pos) newShipInfo
+            | (newShipName, _, _, _, _)::_ -> 
+                let rest = List.filter (fun (name, _, _, _, _) -> not (name = newShipName)) list
+                let newShipInfo = List.filter (fun (name, _, _, _, _) -> name = newShipName) list
+                let orderedShipInfo = List.sortBy (fun (_, pos, _, _, _) -> pos) newShipInfo
                 orderedShipInfo @ orgranizeData rest
 
         //Creates a list of ships with the organized data, there will be duplicates and all center and facing will be default
         let rec createShipListFromOrganizedData list =
             match list with
             | [] -> []
-            | (shipName, pos, x, y)::rest ->
+            | (shipName, pos, isHit, x, y)::rest ->
                 {Name = shipName; Coords = [(x, y)]; Center = (0,0); Facing = North}::(createShipListFromOrganizedData rest)
 
         //Iterate through the list and combines the coords of the ships with the same name
@@ -243,7 +280,7 @@ module Battlefield =
             ) list
 
         let listOfShips = 
-            Grid.getAllSector grid getAllSectorRow  //Get a list of all active sectors as (name, pos, rowIndex, sectorIndex)
+            Grid.getAllSector grid getAllActiveSectors  //Get a list of all active sectors as (name, pos, rowIndex, sectorIndex)
             |> orgranizeData                        //Organize data in order by block# and ship name
             |> createShipListFromOrganizedData      //Create a list of ships from the previously organized data
             |> removeDups                           //Combies coord of ships with same name, keeping the order
@@ -265,48 +302,134 @@ module Battlefield =
         
         loadShips data.Ships newGrid
 
-    (* ------- À COMPLÉTER ------- *)
-    (* --- Nouvelles fonctions --- *)
+    //Generate a list of position in a square with coords as center
+    let generateSquare coords radius =
+        let (x,y) = coords
+       
+        let rec genY x' y' =
+            if y' > radius then []
+            else (x - x', y - y')::genY x' (y' + 1)
+            
+        let rec genX x' = 
+            if x' > radius then []
+            else genY x' (-radius) @ genX (x' + 1)
+  
+        genX (-radius)
 
-    //let replaceShip (ship: Ship) (grid: Sector Grid) : Sector Grid =
-    //    (* ------- À COMPLÉTER ------- *)
-    //    (* ----- Implémentation ------ *)
-    //    grid
+    //Generate a list of position in a diamond with (x,y) as center
+    let generateDiamond (x, y) radius =
+        let rec gen x' y' acc =
+            if x' > radius then acc
+            elif y' > radius then gen (x' + 1) (-radius) acc
+            else
+                let acc' =
+                    if abs x' + abs y' <= radius then (x + x', y + y') :: acc else acc
+                gen x' (y' + 1) acc'
+        gen (-radius) (-radius) []
+
+    let getSpyCoords sector =
+        match sector with
+        | Active(name, _, _) when name = Spy -> Some name
+        | _ -> None
+
+    let getSpyRadarCoords grid =
+        //Get spy positions
+        let spyList = Grid.newGetSectorsCoords grid getSpyCoords
+        //Get the diamond
+        List.collect (fun (rowIndex, sectorIndex) -> generateDiamond (rowIndex, sectorIndex) 2) spyList
+        
+        
 
     let getFog (grid: Sector Grid) (drone: Coord) : bool Grid =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        Empty
+        //Get the square
+        let droneRadarCoords = generateSquare drone 1
+        //Get the diamond
+        let shipRadarCoords = getSpyRadarCoords grid
+        //Concatenate both lists
+        let allRadarCoords = droneRadarCoords @ shipRadarCoords
+
+        //Generate the grid
+        let makeFog sector x y =
+            if List.contains (x,y) allRadarCoords then
+                true
+            else
+                false
+
+        mapGrid makeFog grid
+        
 
     let isRevealed (coord: Coord) (fog: bool Grid) : bool =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        false
+        //Check if true or false
+        let retrieveFog sector =
+            match sector with
+            | false -> Some false
+            | true -> Some true
+
+        let optionBool = getSector fog coord retrieveFog
+        //Transform the option into bool
+        match optionBool with
+        | Some true -> true
+        | _ -> false
 
     let getTorpedoes (grid: Sector Grid) : Coord list =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        []
+        let getTorpedoesCoords sector =
+            match sector with
+            | Torpedo -> Some Torpedo
+            | _ -> None
+
+        Grid.newGetSectorsCoords grid getTorpedoesCoords
 
     let isHit (coord: Coord) (grid: Sector Grid) : bool =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        false
+        let retrieveHitCell sector =
+            match sector with
+            //If sector is active and hit
+            | Active (_, _, isHit) -> Some isHit
+            //Anything else is false
+            | _ -> Some false
+           
+        let optionBool = getSector grid coord retrieveHitCell
+
+        match optionBool with
+        | Some true -> true
+        | _ -> false
 
     let canHit (coord: Coord) (grid: Sector Grid) : bool =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        false
+        let isInRange = List.contains coord (getSpyRadarCoords grid)
+        let isTorpedo = List.contains coord (getTorpedoes grid)
+        isInRange && (not (isHit coord grid) || isTorpedo)
 
     let hit (coord: Coord) (grid: Sector Grid) : Sector Grid =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        grid
+        let (x,y) = coord
+        let updateSector sector x' y' =
+            match sector with
+            //If clear, stay clear
+            | Clear -> Clear
+            //If active, hit
+            | Active (name, pos, hit) when x' = x && y' = y -> Active (name, pos, true)
+            //Copy sector
+            | Active (name, pos, hit) -> Active (name, pos, hit)
+            //Hit torpedo
+            | Torpedo -> Clear
+        mapGrid updateSector grid
+
+    let getHitSectorsOfShip (name: Name) (grid: Sector Grid) =
+        let allSectors = Grid.getAllSector grid getAllActiveSectors  //Get a list of all active sectors
+        let shipSectors = List.filter (fun (name', pos, isHit, rowIndex, sectorIndex) -> name' = name) allSectors //Get a list of ship sectors
+        let maxShipHealth = List.length shipSectors
+        let hitSectors =
+            if maxShipHealth > 0 then
+                List.filter (fun (name', pos, isHit, rowIndex, sectorIndex) -> isHit) shipSectors //Get a list of hit sectors
+            else
+                []
+        (hitSectors, maxShipHealth)
+        
 
     let getRemainingHealth (name: Name) (grid: Sector Grid) : int =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        0
+        let hitSectors, maxShipHealth = getHitSectorsOfShip name grid
+        let hits = List.length hitSectors
+        maxShipHealth - hits
+        
+    
      
 
         

@@ -64,6 +64,8 @@ module Stream =
     (* --- Nouvelles fonctions --- *)
 
     let cycleList (l: 'a list) : 'a Stream =
-        (* ------- À COMPLÉTER ------- *)
-        (* ----- Implémentation ------ *)
-        Empty
+        let rec aux l' =
+            match l' with
+            | [] -> Empty
+            | x::xs -> Cons (lazy x, lazy (aux (xs @ [x])))
+        aux l
